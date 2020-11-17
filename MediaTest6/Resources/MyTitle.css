@@ -1,0 +1,83 @@
+*{font-family:SimHei;}
+
+QLabel#TitleIcon
+{
+/*    border-image:url(:/Resources/MyTitle/head_2.png);*/
+}
+
+QLabel#TitleContent
+{
+      color:white;
+      font-size:18pt;
+	  font-weight:200
+}
+
+/*最小化按钮*/
+QPushButton#ButtonMin
+{
+    border-image:url(:/Resources/MyTitle/min.png) 0 60 0 0 ;
+}
+
+QPushButton#ButtonMin:hover
+{
+    border-image:url(:/Resources/MyTitle/min.png) 0 30 0 30 ;
+}
+
+QPushButton#ButtonMin:pressed
+{
+    border-image:url(:/Resources/MyTitle/min.png) 0 0 0 60 ;
+}
+
+/*最大化按钮*/
+QPushButton#ButtonMax
+{
+    border-image:url(:/Resources/MyTitle/max.png) 0 81 0 0 ;
+}
+
+QPushButton#ButtonMax:hover
+{
+    border-image:url(:/Resources/MyTitle/max.png) 0 54 0 27 ;
+}
+
+QPushButton#ButtonMax:pressed
+{
+    border-image:url(:/Resources/MyTitle/max.png) 0 27 0 54 ;
+}
+
+/*关闭按钮*/
+QPushButton#ButtonClose
+{
+    border-image:url(:/Resources/MyTitle/close.png) 0 60 0 0 ;
+    border-top-right-radius:3 ;
+}
+
+QPushButton#ButtonClose:hover
+{
+    border-image:url(:/Resources/MyTitle/close.png) 0 30 0 30 ;
+    border-top-right-radius:3 ;
+}
+
+QPushButton#ButtonClose:pressed
+{
+    border-image:url(:/Resources/MyTitle/close.png) 0 0 0 60 ;
+    border-top-right-radius:3 ;
+}
+
+/*密钥配置关闭按钮*/
+QPushButton#KeyButtonClose
+{
+    border-image:url(:/Resources/MyTitle/close.png) 0 0 0 60 ;
+    border-top-right-radius:3 ;
+}
+
+QPushButton#KeyButtonClose:hover
+{
+    border-image:url(:/Resources/MyTitle/close.png) 0 30 0 30 ;
+    border-top-right-radius:3 ;
+}
+
+QPushButton#KeyButtonClose:pressed
+{
+    border-image:url(:/Resources/MyTitle/close.png) 0 0 0 60 ;
+    border-top-right-radius:3 ;
+}

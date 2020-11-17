@@ -1,0 +1,40 @@
+*{font-family:SimHei;}
+
+QLabel#TitleIcon
+{
+/*    border-image:url(:/Resources/MyTitle/head_2.png);*/
+}
+
+/*播放按钮*/
+QPushButton#pushButton_play
+{
+    border-image:url(:/Resources/media-png/play.png);
+}
+
+/*停止播放按钮*/
+QPushButton#pushButton_stop
+{
+    border-image:url(:/Resources/media-png/stop.png);
+}
+
+/*全屏按钮*/
+QPushButton#pushButton_max
+{
+    border-image:url(:/Resources/media-png/max.png);
+}
+
+/*关闭按钮*/
+QPushButton#pushButton_close
+{
+    border-image:url(:/Resources/media-png/close.png);
+}
+
+QPushButton#pushButton_close:hover
+{
+    border-image:url(:/Resources/media-png/close1.png);
+}
+
+QPushButton#pushButton_close:pressed
+{
+    border-image:url(:/Resources/media-png/close1.png);
+}

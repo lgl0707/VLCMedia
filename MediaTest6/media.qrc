@@ -1,0 +1,28 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/media-png/background.png</file>
+        <file>Resources/media-png/close.png</file>
+        <file>Resources/media-png/close1.png</file>
+        <file>Resources/media-png/max.png</file>
+        <file>Resources/media-png/next.png</file>
+        <file>Resources/media-png/pause.png</file>
+        <file>Resources/media-png/pause1.png</file>
+        <file>Resources/media-png/play.png</file>
+        <file>Resources/media-png/play1.png</file>
+        <file>Resources/media-png/stop.png</file>
+        <file>Resources/media-png/white.png</file>
+        <file>Resources/media-ui.css</file>
+        <file>Resources/media-png/play2.png</file>
+        <file>Resources/media-png/mute.png</file>
+        <file>Resources/media-png/volume.png</file>
+        <file>Resources/media-png/max1.png</file>
+        <file>Resources/media-png/mute1.png</file>
+        <file>Resources/media-png/pause2.png</file>
+        <file>Resources/media-png/pause3.png</file>
+        <file>Resources/media-png/play4.png</file>
+        <file>Resources/media-png/play5.png</file>
+        <file>Resources/media-png/stop1.png</file>
+        <file>Resources/media-png/volume1.png</file>
+        <file>Resources/media-png/close2.png</file>
+    </qresource>
+</RCC>

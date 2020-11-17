@@ -1,0 +1,14 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/media-png/next.png</file>
+        <file>Resources/media-png/pause.png</file>
+        <file>Resources/media-png/play.png</file>
+        <file>Resources/media-png/stop.png</file>
+        <file>Resources/media-ui.css</file>
+        <file>Resources/media-png/white.png</file>
+        <file>Resources/media-png/max.png</file>
+        <file>Resources/media-png/close.png</file>
+        <file>Resources/media-png/close1.png</file>
+        <file>Resources/media-png/background.png</file>
+    </qresource>
+</RCC>
