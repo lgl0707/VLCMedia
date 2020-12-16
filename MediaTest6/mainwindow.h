@@ -70,6 +70,12 @@ private slots:
 
     void getMediaInfo2();//视频的一些基础信息
 
+    void on_horizontalSlider_sliderMoved(int position);
+
+    void on_Slider_Volume_sliderMoved(int position);
+
+    void on_Slider_Volume_valueChanged(int value);
+
 private:
     Ui::MainWindow *ui;
 
@@ -79,5 +85,6 @@ private:
     libvlc_event_manager_t *m_eventManager;
 
     bool m_bPlaying = false;
+    bool m_bMute = false;
 };
 #endif // MAINWINDOW_H

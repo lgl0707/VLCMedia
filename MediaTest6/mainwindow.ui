@@ -213,7 +213,7 @@
         <item>
          <widget class="QSlider" name="horizontalSlider">
           <property name="styleSheet">
-           <string notr="true">QSlider::handle:horizontal{width:24px;background-color:rgb(255,255,255);margin:-11px 0px -11px 0px;border-radius:12px;}
+           <string notr="true">QSlider::handle:horizontal{width:12px;background-color:rgb(255,255,255);margin:-5px 0px -5px 0px;border-radius:5px;}
 QSlider::groove:horizontal{height:2px;background-color:rgb(219,219,219);}
 QSlider::add-page:horizontal{background-color:rgb(219,219,219);}
 QSlider::sub-page:horizontal{background-color:rgb(26,217,110);}</string>
@@ -393,14 +393,14 @@ QSlider::sub-page:horizontal{background-color:rgb(26,217,110);}</string>
          <widget class="QPushButton" name="pushButton_play">
           <property name="minimumSize">
            <size>
-            <width>30</width>
-            <height>32</height>
+            <width>20</width>
+            <height>21</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>32</width>
-            <height>32</height>
+            <width>20</width>
+            <height>21</height>
            </size>
           </property>
           <property name="text">
@@ -425,14 +425,14 @@ QSlider::sub-page:horizontal{background-color:rgb(26,217,110);}</string>
          <widget class="QPushButton" name="pushButton_stop">
           <property name="minimumSize">
            <size>
-            <width>32</width>
-            <height>32</height>
+            <width>21</width>
+            <height>21</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>32</width>
-            <height>32</height>
+            <width>21</width>
+            <height>21</height>
            </size>
           </property>
           <property name="text">
@@ -483,14 +483,14 @@ QSlider::sub-page:horizontal{background-color:rgb(26,217,110);}</string>
          <widget class="QPushButton" name="pushButton_volume">
           <property name="minimumSize">
            <size>
-            <width>43</width>
-            <height>32</height>
+            <width>28</width>
+            <height>21</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>32</width>
-            <height>32</height>
+            <width>28</width>
+            <height>21</height>
            </size>
           </property>
           <property name="text">
@@ -501,7 +501,7 @@ QSlider::sub-page:horizontal{background-color:rgb(26,217,110);}</string>
         <item>
          <widget class="QSlider" name="Slider_Volume">
           <property name="styleSheet">
-           <string notr="true">QSlider::handle:horizontal{width:12px;background-color:rgb(255,255,255);margin:-11px 0px -11px 0px;border-radius:12px;}
+           <string notr="true">QSlider::handle:horizontal{width:10px;background-color:rgb(255,255,255);margin:-11px 0px -11px 0px;border-radius:12px;}
 QSlider::groove:horizontal{height:2px;background-color:rgb(219,219,219);}
 QSlider::add-page:horizontal{background-color:rgb(219,219,219);}
 QSlider::sub-page:horizontal{background-color:rgb(26,217,110);}</string>
@@ -566,14 +566,14 @@ QSlider::sub-page:horizontal{background-color:rgb(26,217,110);}</string>
          <widget class="QPushButton" name="pushButton_max">
           <property name="minimumSize">
            <size>
-            <width>32</width>
-            <height>32</height>
+            <width>21</width>
+            <height>21</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>32</width>
-            <height>32</height>
+            <width>21</width>
+            <height>21</height>
            </size>
           </property>
           <property name="text">

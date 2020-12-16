@@ -15,15 +15,18 @@ TEMPLATE = app
 
 INCLUDEPATH += $$PWD/libvlc_include
 INCLUDEPATH += $$PWD/include/vlc/
-LIBS += -L$$PWD/libvlc_lib
-LIBS += -llibvlc -llibvlccore
+LIBS += -L$$PWD/libvlc_lib \
+        -L$$PWD/libs
+LIBS += -llibvlc -llibvlccore -ljson_vc71_libmtd
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    mousemovewidget.cpp
+    mousemovewidget.cpp \
+    configmanager.cpp
 
 HEADERS  += mainwindow.h \
-    mousemovewidget.h
+    mousemovewidget.h \
+    configmanager.h
 
 FORMS    += mainwindow.ui \
     mainwindow.ui
