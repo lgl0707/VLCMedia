@@ -22,14 +22,17 @@ LIBS += -llibvlc -llibvlccore -ljson_vc71_libmtd
 SOURCES += main.cpp\
         mainwindow.cpp \
     mousemovewidget.cpp \
-    configmanager.cpp
+    configmanager.cpp \
+    lcvlcmediaplayer.cpp
 
 HEADERS  += mainwindow.h \
     mousemovewidget.h \
-    configmanager.h
+    configmanager.h \
+    lcvlcmediaplayer.h
 
 FORMS    += mainwindow.ui \
-    mainwindow.ui
+    mainwindow.ui \
+    lcvlcmediaplayer.ui
 
 RESOURCES += \
     media.qrc

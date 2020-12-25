@@ -20,7 +20,7 @@ QLabel#lable_end
 /*播放按钮*/
 QPushButton#pushButton_play
 {
-    border-image:url(:/Resources/media-png/play4.png);
+    border-image:url(:/Resources/media-png/play6.png);
 }
 
 /*播放按钮*/
@@ -32,13 +32,13 @@ QPushButton#pushButton_play2
 /*停止播放按钮*/
 QPushButton#pushButton_stop
 {
-    border-image:url(:/Resources/media-png/stop1.png);
+    border-image:url(:/Resources/media-png/stop2.png);
 }
 
 /*全屏按钮*/
 QPushButton#pushButton_max
 {
-    border-image:url(:/Resources/media-png/max1.png);
+    border-image:url(:/Resources/media-png/max2.png);
 }
 
 /*关闭按钮*/
@@ -58,7 +58,14 @@ QPushButton#pushButton_close:pressed
 }
 
 /*音量按钮*/
+/*
 QPushButton#pushButton_volume
 {
-    border-image:url(:/Resources/media-png/volume1.png);
+    border-image:url(:/Resources/media-png/volume2.png);
+}
+*/
+/*tip*/
+QToolTip
+{
+    border-image:url(:/Resources/media-png/white.png);
 }

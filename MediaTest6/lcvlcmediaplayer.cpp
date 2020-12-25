@@ -1,20 +1,14 @@
-﻿#include "mainwindow.h"
-#include "ui_mainwindow.h"
+﻿#include "lcvlcmediaplayer.h"
+#include "ui_lcvlcmediaplayer.h"
 #include <QDir>
 #include <QFile>
-#include <QGraphicsScene>
-#include <QGraphicsProxyWidget>
-#include <QGraphicsView>
 #include <QDebug>
-#include <Windows.h>
-#include <QPoint>
-#include <QDateTime>
-
+#include <QMouseEvent>
 #include "configmanager.h"
 
-MainWindow::MainWindow(QWidget *parent) :
+LCVLCMediaPlayer::LCVLCMediaPlayer(QString url, QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::LCVLCMediaPlayer)
 {
     ui->setupUi(this);
     setWindowTitle("低空通航");
@@ -22,9 +16,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->horizontalSlider->installEventFilter(this);
     ui->Slider_Volume->installEventFilter(this);
-
-//    ui->horizontalSlider->setTracking(false);
-//    ui->Slider_Volume->setTracking(false);
 
     QVBoxLayout *vLayout = new QVBoxLayout(this);
     vLayout->setContentsMargins(0,0,0,0);
@@ -55,8 +46,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->pushButton_close->setToolTip("关闭");
     ui->pushButton_volume->setToolTip("静音");
 
-    ui->label_timing->setText("hh:mm:ss");
-    ui->label_end->setText("hh:mm:ss");
+    ui->label_timing->setText("00:00:00");
+    ui->label_end->setText("00:00:00");
 
     ui->Slider_Volume->setMinimum(0);
     ui->Slider_Volume->setMaximum(100);
@@ -65,20 +56,21 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->Slider_Volume->setSliderPosition(100);
     ui->label_volume->setText("100%");
 
+
 //    connect(this, SIGNAL(setEndTime()), this, SLOT(setEndTime2()));
     connect(this, SIGNAL(getMediaInfo()), this, SLOT(getMediaInfo2()));
     connect(this, SIGNAL(currentTime()), this, SLOT(currentTime2()));
 
-//    on_pushButton_play_clicked();
+    on_pushButton_play_clicked();
 }
 
-MainWindow::~MainWindow()
+LCVLCMediaPlayer::~LCVLCMediaPlayer()
 {
     delete ui;
     freeVlc();
 }
 
-void MainWindow::loadStyleSheet()
+void LCVLCMediaPlayer::loadStyleSheet()
 {
     QFile file(":/Resources/media-ui.css");
     file.open(QFile::ReadOnly);
@@ -99,13 +91,12 @@ void MainWindow::loadStyleSheet()
 }
 
 //加载
-bool MainWindow::loadVlc()
+bool LCVLCMediaPlayer::loadVlc()
 {
     m_vlcInstance = libvlc_new(0, nullptr);
 
     QString mediaaddr = ConfigManager::getValueConfig(MEDIAADDR);
     //m_media = libvlc_media_new_location (m_vlcInstance, "rtmp://58.200.131.2:1935/livetv/hunantv");
-    //m_media = libvlc_media_new_location (m_vlcInstance, "rtmp://192.168.4.31:1935/live/movie");
     m_media = libvlc_media_new_path(m_vlcInstance, "C:\\Users\\liugl\\Desktop\\shipin1.flv");
     //m_media = libvlc_media_new_location (m_vlcInstance, mediaaddr.toStdString().c_str());
 
@@ -134,7 +125,7 @@ bool MainWindow::loadVlc()
 }
 
 //释放
-void MainWindow::freeVlc()
+void LCVLCMediaPlayer::freeVlc()
 {
     if(m_media){
         libvlc_media_release(m_media);
@@ -151,7 +142,7 @@ void MainWindow::freeVlc()
     }
 }
 
-void MainWindow::attachEvents(libvlc_media_player_t *m_mediaPlayer)
+void LCVLCMediaPlayer::attachEvents(libvlc_media_player_t *m_mediaPlayer)
 {
     m_eventManager = libvlc_media_player_event_manager(m_mediaPlayer);
     // 事件列表
@@ -174,9 +165,9 @@ void MainWindow::attachEvents(libvlc_media_player_t *m_mediaPlayer)
 }
 
 //VLC事件
-void MainWindow::vlcEvents(const libvlc_event_t *ev, void *param)
+void LCVLCMediaPlayer::vlcEvents(const libvlc_event_t *ev, void *param)
 {
-    MainWindow *pwindow = (MainWindow *)param;
+    LCVLCMediaPlayer *pwindow = (LCVLCMediaPlayer *)param;
     Q_UNUSED(param);
     switch (ev->type) {
     case libvlc_MediaPlayerTimeChanged:
@@ -202,7 +193,7 @@ void MainWindow::vlcEvents(const libvlc_event_t *ev, void *param)
 }
 
 //播放
-void MainWindow::play()
+void LCVLCMediaPlayer::play()
 {
     if(libvlc_Ended == libvlc_media_get_state(m_media)){
         stop();//vlc这个设定太奇怪了，当自然播放结束，重新播放还得主动调用一次stop();
@@ -211,7 +202,7 @@ void MainWindow::play()
 }
 
 //暂停
-void MainWindow::pause()
+void LCVLCMediaPlayer::pause()
 {
     if((bool)libvlc_media_player_is_playing(m_mediaPlayer)){
         m_bPlaying = false;
@@ -220,23 +211,23 @@ void MainWindow::pause()
 }
 
 //停止
-void MainWindow::stop()
+void LCVLCMediaPlayer::stop()
 {
     m_bPlaying = false;
     libvlc_media_player_stop(m_mediaPlayer);
 }
 
-void MainWindow::getMediaInfo2()
+void LCVLCMediaPlayer::getMediaInfo2()
 {
     getEndTime();
 
     getVolume();
 
-    ui->centralwidget->setStyleSheet("background-color: rgb(125, 125, 125, 0)");
+    ui->centralwidget->setStyleSheet("background-color: rgb(0, 0, 0, 0)");
     loadStyleSheet();
 }
 
-void MainWindow::getVolume()
+void LCVLCMediaPlayer::getVolume()
 {
 //    if (m_mediaPlayer != nullptr)
 //    {
@@ -253,7 +244,6 @@ void MainWindow::getVolume()
 
 //首次获取音量是有的时候获取不到，因此设置为实时获取
 //        int volume = libvlc_audio_get_volume(m_mediaPlayer);
-//        qDebug() << "volume:" << volume;
 //        ui->Slider_Volume->setValue(volume);
 
 //        QString strvolume = QString::number(volume);
@@ -271,7 +261,7 @@ void MainWindow::getVolume()
 //    }
 }
 
-void MainWindow::getEndTime()
+void LCVLCMediaPlayer::getEndTime()
 {
     //获取的为ms
     libvlc_time_t play_time = libvlc_media_player_get_length(m_mediaPlayer);
@@ -280,18 +270,36 @@ void MainWindow::getEndTime()
     int iMin = (int(play_time)-iHour*3600)/60;
     int iSen = int(play_time)-iHour*3600-iMin*60;
 
-    QString strtime = QString::number(iHour);
-    strtime += ":"+QString::number(iMin);
-    strtime += ":"+QString::number(iSen);
+    QString strhour, strmin, strsen;
+    if(iHour < 10)
+    {
+        strhour = "0"+QString::number(iHour);
+    } else {
+        strhour = QString::number(iHour);
+    }
+    if(iMin < 10)
+    {
+        strmin = ":0"+QString::number(iMin);
+    } else {
+        strmin = ":"+QString::number(iMin);
+    }
+    if(iSen < 10)
+    {
+        strsen = ":0"+QString::number(iSen);
+    } else {
+        strsen = ":"+QString::number(iSen);
+    }
+
+    QString endtime = strhour + strmin + strsen;
 
     ui->horizontalSlider->setMinimum(0);
     ui->horizontalSlider->setMaximum(int(play_time));
     ui->horizontalSlider->setSingleStep(1); // 步长
 
-    ui->label_end->setText(strtime);
+    ui->label_end->setText(endtime);
 }
 
-void MainWindow::currentTime2()
+void LCVLCMediaPlayer::currentTime2()
 {
     getEndTime();
 
@@ -302,23 +310,40 @@ void MainWindow::currentTime2()
     int iSen = int(play_current_time)-iHour*3600-iMin*60;
 
     //设置进度条的值
-    qDebug() << play_current_time;
 //    ui->horizontalSlider->setValue(int(play_current_time));
     ui->horizontalSlider->setSliderPosition(int(play_current_time));
 
-    QString strtime = QString::number(iHour);
-    strtime += ":"+QString::number(iMin);
-    strtime += ":"+QString::number(iSen);
 
-    ui->label_timing->setText(strtime);
+    //当前播放时间拼接：格式00:00:00
+    QString strhour, strmin, strsen;
+    if(iHour < 10)
+    {
+        strhour = "0"+QString::number(iHour);
+    } else {
+        strhour = QString::number(iHour);
+    }
+    if(iMin < 10)
+    {
+        strmin = ":0"+QString::number(iMin);
+    } else {
+        strmin = ":"+QString::number(iMin);
+    }
+    if(iSen < 10)
+    {
+        strsen = ":0"+QString::number(iSen);
+    } else {
+        strsen = ":"+QString::number(iSen);
+    }
+
+    QString currtime = strhour + strmin + strsen;
+
+    ui->label_timing->setText(currtime);
 
     //首次获取音量是有的时候获取不到，因此设置为实时获取
 //    int volume = libvlc_audio_get_volume(m_mediaPlayer);
 //    ui->Slider_Volume->setValue(volume);
 
-
     int volume = ui->Slider_Volume->value();
-
     if(m_bMute)
     {
         libvlc_audio_set_mute(m_mediaPlayer, 1);
@@ -346,7 +371,7 @@ void MainWindow::currentTime2()
     ui->label_volume->setText(strvolume);
 }
 
-bool MainWindow::eventFilter(QObject * obj, QEvent * event)
+bool LCVLCMediaPlayer::eventFilter(QObject * obj, QEvent * event)
 {
     if(obj== ui->horizontalSlider)
     {
@@ -374,7 +399,7 @@ bool MainWindow::eventFilter(QObject * obj, QEvent * event)
         {
             int dur = ui->horizontalSlider->maximum() - ui->horizontalSlider->minimum();
             int value = ui->horizontalSlider->minimum() + dur * ((double)mouseEvent->x() / ui->horizontalSlider->width());
-            qDebug() << "position:" << value;
+
             libvlc_media_player_set_time(m_mediaPlayer, libvlc_time_t(value*1000));
             ui->horizontalSlider->setSliderPosition(value);
         }
@@ -382,13 +407,22 @@ bool MainWindow::eventFilter(QObject * obj, QEvent * event)
 
     if(obj == ui->Slider_Volume)
     {
+        QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(event);
         if (event->type()==QEvent::MouseButtonPress)
         {
-            QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(event);
             if (mouseEvent->button() == Qt::LeftButton) //判断左键
             {
                 int dur = ui->Slider_Volume->maximum() - ui->Slider_Volume->minimum();
                 int value = ui->Slider_Volume->minimum() + dur * ((double)mouseEvent->x() / ui->Slider_Volume->width());
+
+                if(value > ui->Slider_Volume->maximum())
+                {
+                    value = ui->Slider_Volume->maximum();
+                }
+                if(value < ui->Slider_Volume->minimum())
+                {
+                    value = ui->Slider_Volume->minimum();
+                }
 
                 libvlc_audio_set_volume(m_mediaPlayer, value);
                 QString strvolume = QString::number(value);
@@ -398,35 +432,38 @@ bool MainWindow::eventFilter(QObject * obj, QEvent * event)
                 ui->label_volume->setText(strvolume);
             }
         }
+        else if(event->type()  == QEvent::MouseMove)
+        {
+            int dur = ui->Slider_Volume->maximum() - ui->Slider_Volume->minimum();
+            int value = ui->Slider_Volume->minimum() + dur * ((double)mouseEvent->x() / ui->Slider_Volume->width());
+
+            if(value > ui->Slider_Volume->maximum())
+            {
+                value = 100;
+            }
+            if(value < ui->Slider_Volume->minimum())
+            {
+                value = 0;
+            }
+
+            Slider_Volume_sliderMoved(value);
+        }
     }
     return QObject::eventFilter(obj,event);
 }
 
-void MainWindow::enterEvent(QEvent *)
+void LCVLCMediaPlayer::enterEvent(QEvent *)
 {
     ui->verticalWidget->show();
-    qDebug() << "333";
 }
 
 //void MainWindow::leaveEvent(QEvent *)
 //{
 //    ui->verticalWidget->hide();
-//    qDebug() << "222";
 //}
 
-//void MainWindow::resizeEvent(QResizeEvent *event)
-//{
-//    QPoint globalPos = this->mapToGlobal(QPoint(0,0));//父窗口绝对坐标
-//    int x = globalPos.x() + (this->width() - ui->horizontalWidget->width()) / 2;//x坐标
-//    int y = globalPos.y() + (this->height() - ui->horizontalWidget->height());//y坐标
-//    ui->horizontalWidget->move(x, y);
-//    ui->pushButton_4->move((globalPos.x()+this->width()-30), (globalPos.y()+this->height()-30));
-//    ui->pushButton_5->move((globalPos.x()+this->width()-30), globalPos.y());
-//}
-
-void MainWindow::on_pushButton_play_clicked()
+void LCVLCMediaPlayer::on_pushButton_play_clicked()
 {
-//    ui->centralwidget->setStyleSheet("background-color: rgb(125, 125, 125, 0)");
     if(m_bPlaying)
     {
 //        ui->pushButton_play->setStyleSheet("border-image:url(:/Resources/media-png/play4.png)");
@@ -450,10 +487,10 @@ void MainWindow::on_pushButton_play_clicked()
     }
 }
 
-void MainWindow::on_pushButton_stop_clicked()
+void LCVLCMediaPlayer::on_pushButton_stop_clicked()
 {
     stop();
-    ui->centralwidget->setStyleSheet("background-color: rgb(125, 125, 125)");
+    ui->centralwidget->setStyleSheet("background-color: rgb(0, 0, 0)");
     loadStyleSheet();
 
 
@@ -462,13 +499,13 @@ void MainWindow::on_pushButton_stop_clicked()
     ui->pushButton_play->setToolTip("播放");
 
     ui->horizontalSlider->setSliderPosition(0);
-    ui->label_timing->setText("hh:mm:ss");
-    ui->label_end->setText("hh:mm:ss");
+    ui->label_timing->setText("00:00:00");
+    ui->label_end->setText("00:00:00");
 }
 
-void MainWindow::on_pushButton_play2_clicked()
+void LCVLCMediaPlayer::on_pushButton_play2_clicked()
 {
-//    ui->centralwidget->setStyleSheet("background-color: rgb(125, 125, 125, 0)");//设置为透明
+//    ui->centralwidget->setStyleSheet("background-color: rgb(0, 0, 0, 0)");//设置为透明
     if(m_bPlaying)
     {
        ui->pushButton_play->setToolTip("播放");
@@ -492,7 +529,7 @@ void MainWindow::on_pushButton_play2_clicked()
     }
 }
 
-void MainWindow::on_pushButton_max_clicked()
+void LCVLCMediaPlayer::on_pushButton_max_clicked()
 {
     QWidget *pWindow = this->window();
 
@@ -510,20 +547,20 @@ void MainWindow::on_pushButton_max_clicked()
     }
 }
 
-void MainWindow::on_pushButton_close_clicked()
+void LCVLCMediaPlayer::on_pushButton_close_clicked()
 {
     ui->verticalWidget->close();
     QWidget *pWindow = this->window();
     pWindow->close();
 }
 
-void MainWindow::on_pushButton_volume_clicked()
+void LCVLCMediaPlayer::on_pushButton_volume_clicked()
 {
     int isplay = libvlc_media_player_is_playing(m_mediaPlayer);
     if (m_mediaPlayer != nullptr && isplay == 1)
     {
         int mute = libvlc_audio_get_mute(m_mediaPlayer);
-        qDebug() << mute;
+
         if(mute)
         {
             m_bMute = 0;
@@ -570,14 +607,7 @@ void MainWindow::on_pushButton_volume_clicked()
     }
 }
 
-void MainWindow::on_horizontalSlider_sliderMoved(int position)
-{
-//    qDebug() << "position:" << position;
-//    libvlc_media_player_set_time(m_mediaPlayer, libvlc_time_t(position*1000));
-//    ui->horizontalSlider->setSliderPosition(position);
-}
-
-void MainWindow::on_Slider_Volume_sliderMoved(int position)
+void LCVLCMediaPlayer::Slider_Volume_sliderMoved(int position)
 {
     if (m_mediaPlayer != nullptr)
     {
@@ -604,10 +634,12 @@ void MainWindow::on_Slider_Volume_sliderMoved(int position)
     ui->label_volume->setText(strvolume);
 }
 
-void MainWindow::on_Slider_Volume_valueChanged(int value)
+void LCVLCMediaPlayer::on_Slider_Volume_valueChanged(int value)
 {
-    ui->Slider_Volume->setStyleSheet("QSlider::handle:horizontal{width:10px;background-color:rgb(255,255,255);margin:-11px 0px -11px 0px;border-radius:12px;}\
-                                     QSlider::groove:horizontal{height:2px;background-color:rgb(219,219,219);}\
-                                     QSlider::add-page:horizontal{background-color:rgb(219,219,219);}\
-                                     QSlider::sub-page:horizontal{background-color:rgb(26,217,110);}");
+    if(value)
+    {
+        m_bMute = 0;
+    }else {
+        m_bMute = 1;
+    }
 }

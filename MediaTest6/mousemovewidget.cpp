@@ -1,5 +1,4 @@
 ﻿#include "mousemovewidget.h"
-#include <QDebug>
 #include <QPainter>
 
 MouseMoveWidget::MouseMoveWidget(QWidget *parent) : QWidget(parent)
@@ -9,12 +8,10 @@ MouseMoveWidget::MouseMoveWidget(QWidget *parent) : QWidget(parent)
 
 void MouseMoveWidget::enterEvent(QEvent *)
 {
-    qDebug() << "111";
     this->show();
 }
 void MouseMoveWidget::leaveEvent(QEvent *)
 {
-    qDebug() << "222";
     this->hide();
 }
 
